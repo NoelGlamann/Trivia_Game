@@ -82,6 +82,9 @@ class MainMenu(Screen):
         self.grid_rowconfigure(0, weight = 1)
         self.grid_rowconfigure(9, weight = 2)
         
+        
+    
+        
 class Question(tk.Frame):
     def __init__(self):
         
@@ -117,6 +120,8 @@ class Question(tk.Frame):
         self.grid_rowconfigure(4, weight = 2)
         self.grid_rowconfigure(5, weight = 2)
         self.grid_rowconfigure(6, weight = 1)
+        
+    
         
         
         
@@ -189,7 +194,7 @@ if __name__ == "__main__":
     screens[0].grid(row = 0, column = 0, sticky = "news")  
     screens[1].grid(row = 0, column = 0, sticky = "news")
     
-    Screen.current = 0
+    Screen.current = 1
     Screen.switch_frame()    
 
     root.mainloop()
