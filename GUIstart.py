@@ -72,7 +72,7 @@ class MainMenu(Screen):
                               columnspan = 2, sticky = "news")        
         
         self.btn_scorecheck = tk.Button(self, text = "Check Scores",
-                                   font = ("Courier", "25"))
+                                   font =("Courier", "25"))
         self.btn_scorecheck.grid(row = 8, column = 1,
                               columnspan = 2, sticky = "news")
         
@@ -86,18 +86,19 @@ class MainMenu(Screen):
         
     def geography_update(self):
         Screen.current = 1
+        Question.section = 1
+        Question.question = 1        
         
         Screen.switch_frame()  
         
-        Question.section = 1
-        Question.question = 1
         
-        Question.update(self)
+        
+        screens[1].update()
         
 class Question(Screen):
     
     section = 0
-    question = 0  
+    question = 0
     
     def __init__(self):
         
@@ -108,8 +109,7 @@ class Question(Screen):
         self.btn_return.grid(row = 0, column = 0, sticky = "news")
         
         
-        self.text = tk.StringVar()
-
+        self.text = tk.StringVar(self)
         self.text.set("help")
         
         self.lbl_question = tk.Label(self, textvariable = self.text,
@@ -141,33 +141,58 @@ class Question(Screen):
         
     def update(self):
     
-        mytext = tk.StringVar()
         mytext = questions[Question.section][Question.question][0]
         self.text.set(mytext)
-    
         
-        
+        first = answers[Question.section][Question.question][0]
+        MultipleChoices.option1.set(first)
         
 class MultipleChoices(tk.Frame):
     def __init__(self, parent): 
         tk.Frame.__init__(self, master = parent)
         
-        self.choice1 = tk.Radiobutton(self, text = "hello",
+        self.option1 = tk.StringVar()
+        self.option2 = tk.StringVar()
+        self.option3 = tk.StringVar()
+        self.option4 = tk.StringVar()
+    
+        self.option1.set('a')
+        self.option2.set('b')
+        self.option3.set('c')
+        self.option4.set('d')      
+        
+     
+        ''' 
+        self.option1.set(answers[Question.section][Question.question][0])
+        self.option2.set(answers[Question.section][Question.question][1])
+        self.option3.set(answers[Question.section][Question.question][2])
+        self.option4.set(answers[Question.section][Question.question][3])  '''      
+        
+        self.choice1 = tk.Radiobutton(self, textvariable = self.option1,
                                       selectcolor = "black",
                                       font = ("Courier", "20"))
         self.choice1.grid(row = 0, column = 0, sticky = "news")
-        self.choice2 = tk.Radiobutton(self, text = "hi",
+        self.choice2 = tk.Radiobutton(self, textvariable = self.option2,
                                       selectcolor = "black",
                                       font = ("Courier", "20"))
         self.choice2.grid(row = 1, column = 0, sticky = "news")
-        self.choice3 = tk.Radiobutton(self, text = "hallo",
+        self.choice3 = tk.Radiobutton(self, textvariable = self.option3,
                                       selectcolor = "black",
                                       font = ("Courier", "20"))
         self.choice3.grid(row = 2, column = 0, sticky = "news")       
-        self.choice4 = tk.Radiobutton(self, text = "hola",
+        self.choice4 = tk.Radiobutton(self, textvariable = self.option4,
                                       selectcolor = "black",
                                       font = ("Courier", "20"))
-        self.choice4.grid(row = 3, column = 0, sticky = "news")              
+        self.choice4.grid(row = 3, column = 0, sticky = "news")    
+        
+        #self.update()
+        
+    def update(self):
+        self.option1.set(answers[Question.section][Question.question][0])
+        self.option2.set(answers[Question.section][Question.question][1])
+        self.option3.set(answers[Question.section][Question.question][2])
+        self.option4.set(answers[Question.section][Question.question][3])          
+                    
         
         
 
