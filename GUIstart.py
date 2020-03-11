@@ -34,7 +34,7 @@ class Screen(tk.Frame):
 class MainMenu(Screen):
     def __init__(self):
         
-        tk.Frame.__init__(self)    
+        Screen.__init__(self)    
 
         self.lbl_title1 = tk.Label(self, text = "Trivia",
                                    font = ("Courier", "50"))
@@ -46,6 +46,7 @@ class MainMenu(Screen):
                              sticky = "w")
         
         self.btn_geography = tk.Button(self, text = "Geography",
+                                       command = self.geography_update,
                                    font = ("Courier", "25"))
         self.btn_geography.grid(row = 3, column = 1,
                               columnspan = 2, sticky = "news")
@@ -83,18 +84,35 @@ class MainMenu(Screen):
         self.grid_rowconfigure(9, weight = 2)
         
         
-    
+    def geography_update(self):
+        Screen.current = 1
         
-class Question(tk.Frame):
+        Screen.switch_frame()  
+        
+        Question.section = 1
+        Question.question = 1
+        
+        Question.update(self)
+        
+class Question(Screen):
+    
+    section = 0
+    question = 0  
+    
     def __init__(self):
         
-        tk.Frame.__init__(self)  
+        Screen.__init__(self)        
         
         self.btn_return = tk.Button(self, text = "Main Menu",
                                    font = ("Courier", "10"))
         self.btn_return.grid(row = 0, column = 0, sticky = "news")
         
-        self.lbl_question = tk.Label(self, text = "???",
+        
+        self.text = tk.StringVar()
+
+        self.text.set("help")
+        
+        self.lbl_question = tk.Label(self, textvariable = self.text,
                                    font = ("Courier", "35"))
         self.lbl_question.grid(row = 1, column = 1,
                                columnspan = 2)
@@ -121,6 +139,11 @@ class Question(tk.Frame):
         self.grid_rowconfigure(5, weight = 2)
         self.grid_rowconfigure(6, weight = 1)
         
+    def update(self):
+    
+        mytext = tk.StringVar()
+        mytext = questions[Question.section][Question.question][0]
+        self.text.set(mytext)
     
         
         
@@ -176,25 +199,26 @@ if __name__ == "__main__":
     questions = p.load(pickle_file)  
     pickle_file.close()       
     
+    pickle_file = open("choices.pickle", "rb")
+    answers = p.load(pickle_file)  
+    pickle_file.close()       
     
     root = tk.Tk()
-    root.geometry("500x500")
+    #root.geometry("500x500")
     root.title("Trivia Game")
     root.grid_columnconfigure(0, weight = 1)
     root.grid_rowconfigure(0, weight = 1)    
     
-    main_menu = Question()
-    main_menu.grid(row = 0, column = 0, sticky = "news")
     
     screens = []
     
-    screens.append(MainMenu())    
-    screens.append(Question())     
+    screens.append(MainMenu())  #screens[0]  
+    screens.append(Question())  #screens[1]  
   
     screens[0].grid(row = 0, column = 0, sticky = "news")  
     screens[1].grid(row = 0, column = 0, sticky = "news")
     
-    Screen.current = 1
+    Screen.current = 0
     Screen.switch_frame()    
 
     root.mainloop()
