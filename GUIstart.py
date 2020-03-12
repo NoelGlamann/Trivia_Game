@@ -106,18 +106,15 @@ class MainMenu(Screen):
     def change_frame(self):
         Screen.current = 1
         Question.question = 1
-        
-        Question.score = 0
-        
         Screen.switch_frame()
-        screens[1].update()         
+        screens[1].reset_score()         
         
 class Question(Screen):
     
     section = 0
     question = 0
     button_tries = 0
-    score = 0
+    streak = 0
     
     def __init__(self):
         
@@ -153,7 +150,7 @@ class Question(Screen):
                                      fg = "black", bg = "white",
                                      font = ("Courier", "15"))
         self.btn_option1.grid(row = 2, column = 1, sticky = "news",
-                              columnspan = 2)
+                              columnspan = 2) 
         
         self.btn_option2 = tk.Button(self, textvariable = self.second,
                                      command = self.selected_second,
@@ -181,14 +178,16 @@ class Question(Screen):
                                     font = ("Courier", "15"))
         self.lbl_scorelbl.grid(row = 5, column = 0, sticky = "news")
         
+        self.score = tk.IntVar()
+        self.score.set(0)
         
-        self.txt_scores = tk.Text(self, height = 1, width = 1,
+        self.lbl_scores = tk.Label(self, textvariable =self.score,
                                   bg = "blue", fg = "white",
-                                      font = ("Courier", "15"))
-        self.txt_scores.grid(row = 6, column = 0,
+                                font = ("Courier", "15"))
+        self.lbl_scores.grid(row = 6, column = 0,
                              sticky  ="news")
         
-        self.txt_scores.insert("insert", self.score)
+        
         
         self.btn_submit = tk.Button(self, text = "Next Question",
                                     bg = "black", fg = "white",
@@ -209,18 +208,29 @@ class Question(Screen):
         self.grid_rowconfigure(4, weight = 2)
         self.grid_rowconfigure(5, weight = 2)
         self.grid_rowconfigure(6, weight = 1)
+    
+    def reset_score(self):
+        self.score.set(0)
+        self.update()
         
     def update(self):
         
         if Question.section == 5:
             print("hi")
-    
+            
         self.text.set(questions[Question.section][Question.question][0])
         
         self.first.set(answers[Question.section][Question.question][0])
         self.second.set(answers[Question.section][Question.question][1])
         self.third.set(answers[Question.section][Question.question][2])
         self.fourth.set(answers[Question.section][Question.question][3])  
+        
+        self.btn_option1.configure(bg = "white", state = "normal")
+        self.btn_option2.configure(bg = "white", state = "normal")
+        self.btn_option3.configure(bg = "white", state = "normal")
+        self.btn_option4.configure(bg = "white", state = "normal")
+        self.btn_submit.configure(bg = "black", fg = "white", state = "disabled")   
+             
         
         
         
@@ -229,12 +239,14 @@ class Question(Screen):
         
         if self.first.get() == correct_answer:
             self.btn_option1.configure(bg = "green")
-            self.score += 1000 
-            self.txt_scores.delete(0.0, "end")
-            self.txt_scores.insert("insert", self.score)
+            self.score.set(self.score.get() + 1000) 
+            Question.streak +=1
+            self.score.set(self.score.get() * (1 + (Question.streak*.1))) 
+            self.score.set(round(self.score.get(), 1))
             
         else:
             self.btn_option1.configure(bg = "red")
+            Question.streak = 0
             
             if self.second.get() == correct_answer:
                 self.btn_option2.configure(bg = "green")
@@ -252,12 +264,14 @@ class Question(Screen):
         
         if self.second.get() == correct_answer:
             self.btn_option2.configure(bg = "green")
-            self.score += 1000 
-            self.txt_scores.delete(0.0, "end")
-            self.txt_scores.insert("insert", self.score)           
+            self.score.set(self.score.get() + 1000) 
+            Question.streak +=1
+            self.score.set(self.score.get() * (1 + (Question.streak*.1))) 
+            self.score.set(round(self.score.get(), 1))
             
         else:
             self.btn_option2.configure(bg = "red")
+            Question.streak = 0
             
             if self.first.get() == correct_answer:
                 self.btn_option1.configure(bg = "green")
@@ -275,12 +289,14 @@ class Question(Screen):
         
         if self.third.get() == correct_answer:
             self.btn_option3.configure(bg = "green")
-            self.score += 1000 
-            self.txt_scores.delete(0.0, "end")
-            self.txt_scores.insert("insert", self.score)         
+            self.score.set(self.score.get() + 1000) 
+            Question.streak +=1
+            self.score.set(self.score.get() * (1 + (Question.streak*.1)))
+            self.score.set(round(self.score.get(), 1))
             
         else:
             self.btn_option3.configure(bg = "red")
+            Question.streak = 0
             
             if self.second.get() == correct_answer:
                 self.btn_option2.configure(bg = "green")
@@ -300,12 +316,14 @@ class Question(Screen):
         
         if self.fourth.get() == correct_answer:
             self.btn_option4.configure(bg = "green")
-            self.score += 1000 
-            self.txt_scores.delete(0.0, "end")
-            self.txt_scores.insert("insert", self.score)            
+            self.score.set(self.score.get() + 1000) 
+            Question.streak +=1
+            self.score.set(self.score.get() * (1 + (Question.streak*.1)))    
+            
             
         else:
             self.btn_option4.configure(bg = "red")
+            Question.streak = 0
             
             if self.second.get() == correct_answer:
                 self.btn_option2.configure(bg = "green")
@@ -333,11 +351,6 @@ class Question(Screen):
             print("hi")        
         else:            
             self.update()
-            self.btn_option1.configure(bg = "white", state = "normal")
-            self.btn_option2.configure(bg = "white", state = "normal")
-            self.btn_option3.configure(bg = "white", state = "normal")
-            self.btn_option4.configure(bg = "white", state = "normal")
-            self.btn_submit.configure(bg = "black", fg = "white", state = "disabled")
 
 #MAIN----------------------------------------------------------------------
 if __name__ == "__main__":
