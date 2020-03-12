@@ -94,18 +94,21 @@ class MainMenu(Screen):
         
         
         screens[1].update()
+        MultipleChoices.update()
         
 class Question(Screen):
     
     section = 0
     question = 0
+    button_tries = 0
     
     def __init__(self):
         
         Screen.__init__(self)        
         
         self.btn_return = tk.Button(self, text = "Main Menu",
-                                   font = ("Courier", "10"))
+                                   font = ("Courier", "10"),
+                                   command = Screen.main)
         self.btn_return.grid(row = 0, column = 0, sticky = "news")
         
         
@@ -117,14 +120,36 @@ class Question(Screen):
         self.lbl_question.grid(row = 1, column = 1,
                                columnspan = 2)
         
-        self.rad_multiplechoice = MultipleChoices(self)
-        self.rad_multiplechoice.grid(row = 2, column = 1,
-                                     rowspan = 4,
-                                     columnspan = 2,
-                                     sticky = "news")
+        self.first = tk.StringVar()
+        self.second = tk.StringVar()
+        self.third = tk.StringVar()
+        self.fourth = tk.StringVar()
+        
+        self.first.set('a')
+        self.second.set('b')
+        self.third.set('c')
+        self.fourth.set('d')
+        
+        self.btn_option1 = tk.Button(self, textvariable = self.first)
+        self.btn_option1.grid(row = 2, column = 1, sticky = "news")
+        
+        self.btn_option2 = tk.Button(self, textvariable = self.second)
+        self.btn_option2.grid(row = 3, column = 1, sticky = "news")
+        
+        self.btn_option3 = tk.Button(self, textvariable = self.third)
+        self.btn_option3.grid(row = 4, column = 1, sticky = "news")
+        
+        self.btn_option4 = tk.Button(self, textvariable = self.fourth)
+        self.btn_option4.grid(row = 5, column = 1, sticky = "news")  
+        
         self.btn_submit = tk.Button(self, text = "Submit",
                                    font = ("Courier", "10"))
         self.btn_submit.grid(row = 6, column = 3, sticky = "news")
+        
+        self.btn_option1.configure(bg = "white")
+        self.btn_option2.configure(bg = "white")
+        self.btn_option3.configure(bg = "white")
+        self.btn_option4.configure(bg = "white")
         
         self.grid_columnconfigure(0, weight = 1)
         self.grid_columnconfigure(1, weight = 2)
@@ -141,57 +166,25 @@ class Question(Screen):
         
     def update(self):
     
-        mytext = questions[Question.section][Question.question][0]
-        self.text.set(mytext)
+        self.text.set(questions[Question.section][Question.question][0])
         
-        first = answers[Question.section][Question.question][0]
-        MultipleChoices.option1.set(first)
+        self.first.set(answers[Question.section][Question.question][0])
+        self.second.set(answers[Question.section][Question.question][1])
+        self.third.set(answers[Question.section][Question.question][2])
+        self.fourth.set(answers[Question.section][Question.question][3])   
         
-class MultipleChoices(tk.Frame):
-    def __init__(self, parent): 
-        tk.Frame.__init__(self, master = parent)
+    def selected_first(self):
+        self.btn_option2.configure(state = "disabled")
+        self.btn_option3.configure(state = "disabled")
+        self.btn_option4.configure(state = "disabled")
         
-        self.option1 = tk.StringVar()
-        self.option2 = tk.StringVar()
-        self.option3 = tk.StringVar()
-        self.option4 = tk.StringVar()
-    
-        self.option1.set('a')
-        self.option2.set('b')
-        self.option3.set('c')
-        self.option4.set('d')      
+        correct_answer = (questions[Question.section][Question.question][1])
         
-     
-        ''' 
-        self.option1.set(answers[Question.section][Question.question][0])
-        self.option2.set(answers[Question.section][Question.question][1])
-        self.option3.set(answers[Question.section][Question.question][2])
-        self.option4.set(answers[Question.section][Question.question][3])  '''      
-        
-        self.choice1 = tk.Radiobutton(self, textvariable = self.option1,
-                                      selectcolor = "black",
-                                      font = ("Courier", "20"))
-        self.choice1.grid(row = 0, column = 0, sticky = "news")
-        self.choice2 = tk.Radiobutton(self, textvariable = self.option2,
-                                      selectcolor = "black",
-                                      font = ("Courier", "20"))
-        self.choice2.grid(row = 1, column = 0, sticky = "news")
-        self.choice3 = tk.Radiobutton(self, textvariable = self.option3,
-                                      selectcolor = "black",
-                                      font = ("Courier", "20"))
-        self.choice3.grid(row = 2, column = 0, sticky = "news")       
-        self.choice4 = tk.Radiobutton(self, textvariable = self.option4,
-                                      selectcolor = "black",
-                                      font = ("Courier", "20"))
-        self.choice4.grid(row = 3, column = 0, sticky = "news")    
-        
-        #self.update()
-        
-    def update(self):
-        self.option1.set(answers[Question.section][Question.question][0])
-        self.option2.set(answers[Question.section][Question.question][1])
-        self.option3.set(answers[Question.section][Question.question][2])
-        self.option4.set(answers[Question.section][Question.question][3])          
+        if self.first.get() == correct_answer:
+            self.btn_option1.configure(bg = "green")
+            
+        else:
+            self.btn_option1.configure(bg = "red")
                     
         
         
