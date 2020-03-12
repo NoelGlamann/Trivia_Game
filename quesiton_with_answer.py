@@ -47,16 +47,16 @@ question_answer = {1:{1:["What is the Earth's largest continent?", "Asia"],
                       8:["How many strings from a violin have?", "four"], 
                       9:["'I tll her only partly, I only love my _____ and my ______, I'm sorry.' - Finish the Lyrics", "Bed/Mama"], 
                       10:["'IM A GOOFY GOOBER ______'-Finish the Lyrics", "ROCK"]}, 
-                   4:{1:["question", "answer"], 
-                      2:["question", "answer"],
-                      3:["question", "answer"], 
-                      4:["question", "answer"], 
-                      5:["question", "answer"], 
-                      6:["question", "answer"], 
-                      7:["question", "answer"], 
-                      8:["question", "answer"], 
-                      9:["question", "answer"], 
-                      10:["question", "answer"]}}
+                   4:{1:["What was Mario's origianl name?", "Jumpman"], 
+                      2:["What was the title of the very first video game?", "Tennis for Two"],
+                      3:["Which type of Pokemon is strong against Charmander?", "Water"], 
+                      4:["Who is the main character in the Splinter Cell series?", "Sam Fisher"], 
+                      5:["Which of the following is NOT a playable character in Super Smash Bros?", "Ms. Pac-Man"], 
+                      6:["Which of the following isn't a real game?", "Spyro Bandicoot: Spinnin'"], 
+                      7:["Which console came first?", "Dreamcast"], 
+                      8:["What is Master Chief's first name?", "John"], 
+                      9:["Yoshi first appeared in which game?", "Super Mario World"], 
+                      10:["What is the most played online game in the world?", "League of Legends"]}}
 
 
 datafile = open('questions.pickle', 'wb')

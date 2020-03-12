@@ -47,16 +47,16 @@ multiple_choice = {1:{1:["Europe", "Asia", "North America", "Africa"],
                       8:["four", "seven", "three", "five"], 
                       9:["Dog/Dad", "Friends/Food", "Bed/Mama", "Python/Java"], 
                       10:["cool", "neat", "ROCK", "swag"]}, 
-                   4:{1:["", "", "", ""], 
-                      2:["", "", "", ""],
-                      3:["", "", "", ""], 
-                      4:["", "", "", ""], 
-                      5:["", "", "", ""], 
-                      6:["", "", "", ""], 
-                      7:["", "", "", ""], 
-                      8:["", "", "", ""], 
-                      9:["", "", "", ""], 
-                      10:["", "", "", ""]}}
+                   4:{1:["Wario", "Jumpman", "Hammer Bro", "Luigi"], 
+                      2:["Pong", "Pitfall", "Pac-Man", "Tennis for Two"],
+                      3:["Ice", "Steel", "Grass", "Water"], 
+                      4:["Sam Fisher", "Jason Bourne", "Solid Snake", "Agent 47"], 
+                      5:["Cloud", "Ms.Pac-Man", "Captain Falcon", "Solid Snake"], 
+                      6:["Hotel Mario", "Jimmie Johnson's Anything with an Engine", "Banjo-Kazooie: Grunty's Revenge", "Spyro Bandicoot: Spinnin'"], 
+                      7:["Play Station 2", "Gamecube", "Xbox", "Dreamcast"], 
+                      8:["Nathan", "Ryan", "John", "Dylan"], 
+                      9:["Yoshi's Island", "Super Mario World", "Mario is Missing", "Yoshi's Cookie"], 
+                      10:["League of Legends", "World of Warcraft", "Call of Duty", "Fortnite"]}}
 
 
 datafile = open('choices.pickle', 'wb')
