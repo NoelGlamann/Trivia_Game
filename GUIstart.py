@@ -13,6 +13,7 @@ Interface (GUI) for a Trivia Game
 import pickle as p
 import tkinter as tk
 from tkinter import scrolledtext
+import random as rnd
 
 #FUNCTIONS-----------------------------------------------------------------
 
@@ -216,7 +217,11 @@ class Question(Screen):
     def update(self):
         
         if Question.section == 5:
-            print("hi")
+            r_questions = []
+            for i in range(1, 11):
+                Question.section = rnd.randint(1,4)
+                Question.question = rnd.randint(1, 10)
+                r_questions.append(questions[Question.section][Question.question][0])
             
         self.text.set(questions[Question.section][Question.question][0])
         
@@ -348,9 +353,14 @@ class Question(Screen):
     def reset_question(self):
         Question.question += 1
         if Question.question > 10:
-            print("hi")        
+            print("NEXT SCREEN")        
         else:            
             self.update()
+            
+class FinalScreen(Screen):
+    def __init__(self):
+        
+        Screen.__init__(self)     
 
 #MAIN----------------------------------------------------------------------
 if __name__ == "__main__":
@@ -393,8 +403,9 @@ if __name__ == "__main__":
     
     screens = []
     
-    screens.append(MainMenu())  #screens[0]  
-    screens.append(Question())  #screens[1]  
+    screens.append(MainMenu())    #screens[0]  
+    screens.append(Question())    #screens[1]  
+    screens.append(FinalScreen()) #screens[2]
   
     screens[0].grid(row = 0, column = 0, sticky = "news")  
     screens[1].grid(row = 0, column = 0, sticky = "news")
