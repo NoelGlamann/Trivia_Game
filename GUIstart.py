@@ -324,7 +324,7 @@ class Question(Screen):
             self.score.set(self.score.get() + 1000) 
             Question.streak +=1
             self.score.set(self.score.get() * (1 + (Question.streak*.1)))    
-            
+            self.score.set(round(self.score.get(), 1))
             
         else:
             self.btn_option4.configure(bg = "red")
@@ -353,19 +353,36 @@ class Question(Screen):
     def reset_question(self):
         Question.question += 1
         if Question.question > 10:
-            print("NEXT SCREEN")        
+            FinalScreen.update(self, self.score)
+            Screen.current = 2
+            Screen.switch_frame()
         else:            
             self.update()
             
 class FinalScreen(Screen):
     def __init__(self):
         
-        Screen.__init__(self)     
+        Screen.__init__(self)    
+        
+        self.lbl_score_label = tk.Label(self, text = "Final Score",
+                                        font = ("Courier", "20"))
+        self.lbl_score_label.grid(row = 1, column = 1)
+        
+        self.finalscore = tk.IntVar()
+        self.finalscore.set(0)
+        
+        self.lbl_final_score = tk.Label(self, textvariable = self.finalscore,
+                                        font = ("Courier", "20")) 
+        self.lbl_final_score.grid(row = 3, column = 1)
+        
+    def update(self, score):
+        self.finalscore = score
+        print(self.finalscore)
+        
 
 #MAIN----------------------------------------------------------------------
 if __name__ == "__main__":
-    
-    
+
     pickle_file = open("geography.pickle", "rb")
     geography_s = p.load(pickle_file)  
     pickle_file.close()
@@ -409,6 +426,7 @@ if __name__ == "__main__":
   
     screens[0].grid(row = 0, column = 0, sticky = "news")  
     screens[1].grid(row = 0, column = 0, sticky = "news")
+    screens[2].grid(row = 0, column = 0, sticky = "news")
     
     Screen.current = 0
     Screen.switch_frame()    
